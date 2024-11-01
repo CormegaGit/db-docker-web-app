@@ -9,5 +9,4 @@ class DbDockerWebAppApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
