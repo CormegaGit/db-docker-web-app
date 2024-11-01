@@ -4,5 +4,5 @@
 #
     Commands:
         mvn clean install
-        java -jar target/demo-0.0.1-SNAPSHOT.jar
+        java -jar target/db-docker-web-app-0.0.1-SNAPSHOT.jar --data.file.path=database/file.json
 #

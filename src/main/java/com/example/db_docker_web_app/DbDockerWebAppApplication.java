@@ -1,5 +1,6 @@
 package com.example.db_docker_web_app;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,14 +24,17 @@ class FileInitializer implements CommandLineRunner {
 
 	private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(FileInitializer.class.getName());
 
+	@Value("${data.file.path}")
+	String dataFilePath;
+
 	@Override
 	public void run(String... args) throws Exception {
-		File file = new File("springboot_java_demo_app.json");
+		File file = new File(dataFilePath);
 		if (!file.exists()) {
 			createJsonFile(file);
-			log.info("{\"Demo App\": \"File 'springboot_java_demo_app.json' does NOT exit, creating new file...\"}");
+			log.info("{\"Demo App\": \"File '" + dataFilePath + "' does NOT exit, creating new file...\"}");
 		} else {
-			log.info("{\"Demo App\": \"File 'springboot_java_demo_app.json' exist in current path.\"}");
+			log.info("{\"Demo App\": \"File '" + dataFilePath + "' exist in current path.\"}");
 		}
 	}
 
@@ -52,18 +56,6 @@ class FileInitializer implements CommandLineRunner {
 				writer.write("\n");
 			}
 			writer.write("]");
-		}
-	}
-
-	static class Person {
-		String firstName;
-		String lastName;
-		String country;
-
-		public Person(String firstName, String lastName, String country) {
-			this.firstName = firstName;
-			this.lastName = lastName;
-			this.country = country;
 		}
 	}
 }

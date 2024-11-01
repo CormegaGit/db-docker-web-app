@@ -22,12 +22,15 @@ public class SimpleController {
     @Value("${spring.application.name}")
     String appName;
 
+    @Value("${data.file.path}")
+    String dataFilePath;
+
     @GetMapping("/")
     public String homePage(Model model) throws IOException {
         model.addAttribute("appName", appName);
         // Read data from JSON file
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Person> people = Arrays.asList(objectMapper.readValue(new File("springboot_java_demo_app.json"), Person[].class));
+        List<Person> people = Arrays.asList(objectMapper.readValue(new File(dataFilePath), Person[].class));
         // Add people to the model
         model.addAttribute("people", people);
         return "home";
@@ -44,9 +47,9 @@ public class SimpleController {
                             @RequestParam("country") String country) throws IOException {
         // Add the new person to the JSON file
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Person> people = new ArrayList<>(Arrays.asList(objectMapper.readValue(new File("springboot_java_demo_app.json"), Person[].class))); // Create a modifiable list
+        List<Person> people = new ArrayList<>(Arrays.asList(objectMapper.readValue(new File(dataFilePath), Person[].class)));
         people.add(new Person(firstName, lastName, country));
-        try (FileWriter writer = new FileWriter("springboot_java_demo_app.json")) {
+        try (FileWriter writer = new FileWriter(dataFilePath)) {
             objectMapper.writeValue(writer, people);
         }
         log.info("{\"Demo App\": \"First Name: " + firstName + ", Last Name: " + lastName +", Country: " + country + "\"}");
